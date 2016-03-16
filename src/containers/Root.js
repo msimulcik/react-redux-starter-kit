@@ -1,38 +1,52 @@
-import React, { PropTypes } from 'react'
-import { Provider } from 'react-redux'
-import { Router } from 'react-router'
+import React, { PropTypes } from 'react';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router';
+import { IntlProvider } from 'react-intl';
+import * as messages from 'i18n/';
+import { connect } from 'react-redux';
 
-export default class Root extends React.Component {
+export class Root extends React.Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     routes: PropTypes.element.isRequired,
-    store: PropTypes.object.isRequired
+    store: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
-  get content () {
+  get content() {
+    const intlData = {
+      locale: this.props.locale,
+      messages: messages[this.props.locale],
+      defaultLocale: '',
+    };
+
     return (
-      <Router history={this.props.history}>
-        {this.props.routes}
-      </Router>
-    )
+      <IntlProvider {...intlData}>
+        <Router history={this.props.history}>
+          {this.props.routes}
+        </Router>
+      </IntlProvider>
+    );
   }
 
-  get devTools () {
+  get devTools() {
     if (__DEBUG__) {
       if (__DEBUG_NEW_WINDOW__) {
         if (!window.devToolsExtension) {
-          require('../redux/utils/createDevToolsWindow').default(this.props.store)
+          require('../redux/utils/createDevToolsWindow').default(this.props.store);
         } else {
-          window.devToolsExtension.open()
+          window.devToolsExtension.open();
         }
       } else if (!window.devToolsExtension) {
-        const DevTools = require('containers/DevTools').default
-        return <DevTools />
+        const DevTools = require('containers/DevTools').default;
+        return <DevTools />;
       }
     }
+
+    return undefined;
   }
 
-  render () {
+  render() {
     return (
       <Provider store={this.props.store}>
         <div style={{ height: '100%' }}>
@@ -40,6 +54,11 @@ export default class Root extends React.Component {
           {this.devTools}
         </div>
       </Provider>
-    )
+    );
   }
 }
+
+const mapStateToProps = (state) => ({
+  locale: state.locale,
+});
+export default connect((mapStateToProps))(Root);

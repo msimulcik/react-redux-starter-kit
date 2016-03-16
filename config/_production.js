@@ -6,6 +6,6 @@ export default () => ({
   compiler_stats           : {
     chunks : true,
     chunkModules : true,
-    colors : true
-  }
-})
+    colors : true,
+  },
+});

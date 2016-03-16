@@ -1,109 +1,84 @@
-import React from 'react'
-import TestUtils from 'react-addons-test-utils'
-import { bindActionCreators } from 'redux'
-import { HomeView } from 'views/HomeView/HomeView'
-import { mount } from 'enzyme'
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { HomeView } from 'views/HomeView/HomeView';
+import { shallow } from 'enzyme';
+import { FormattedMessage } from 'react-intl';
 
-function shallowRender (component) {
-  const renderer = TestUtils.createRenderer()
+describe('(View) Home', () => {
+  let _component;
+  let _props;
+  let _spies;
 
-  renderer.render(component)
-  return renderer.getRenderOutput()
-}
-
-function renderWithProps (props = {}) {
-  return TestUtils.renderIntoDocument(<HomeView {...props} />)
-}
-
-function shallowRenderWithProps (props = {}) {
-  return shallowRender(<HomeView {...props} />)
-}
-
-describe('(View) Home', function () {
-  let _component, _rendered, _props, _spies
-
-  beforeEach(function () {
-    _spies = {}
+  beforeEach(() => {
+    _spies = {};
     _props = {
       counter: 0,
       ...bindActionCreators({
         doubleAsync: (_spies.doubleAsync = sinon.spy()),
-        increment: (_spies.increment = sinon.spy())
-      }, _spies.dispatch = sinon.spy())
-    }
+        increment: (_spies.increment = sinon.spy()),
+        localeChange: (_spies.localeChange = sinon.spy()),
+      }, _spies.dispatch = sinon.spy()),
+    };
 
-    _component = shallowRenderWithProps(_props)
-    _rendered = renderWithProps(_props)
-  })
+    _component = shallow(<HomeView {..._props} />);
+  });
 
-  it('Should render as a <div>.', function () {
-    expect(_component.type).to.equal('div')
-  })
+  it('Should render as a <div>.', () => {
+    expect(_component.type()).to.equal('div');
+  });
 
-  it('Should include an <h1> with welcome text.', function () {
-    const h1 = TestUtils.findRenderedDOMComponentWithTag(_rendered, 'h1')
+  it('Should include an <h1> with welcome message.', () => {
+    expect(_component.find('h1').find(FormattedMessage)).to.have.prop('id', 'home.welcome');
+  });
 
-    expect(h1).to.exist
-    expect(h1.textContent).to.match(/Welcome to the React Redux Starter Kit/)
-  })
+  it('Should render with an <h2> that includes Sample Counter message.', () => {
+    expect(_component.find('h2').find(FormattedMessage)).to.have.prop('id', 'home.sampleCounter');
+  });
 
-  it('Should render with an <h2> that includes Sample Counter text.', function () {
-    const h2 = TestUtils.findRenderedDOMComponentWithTag(_rendered, 'h2')
+  it('Should render props.counter at the end of the sample counter <h2>.', () => {
+    const h2 = shallow(<HomeView {...{ ..._props, counter: 5 }} />).find('h2');
 
-    expect(h2).to.exist
-    expect(h2.textContent).to.match(/Sample Counter/)
-  })
+    expect(h2).to.exist();
+    expect(h2).to.have.text().match(/5$/);
+  });
 
-  it('Should render props.counter at the end of the sample counter <h2>.', function () {
-    const h2 = TestUtils.findRenderedDOMComponentWithTag(
-      renderWithProps({ ..._props, counter: 5 }), 'h2'
-    )
+  it('Should render exactly two buttons.', () => {
+    expect(_component).to.have.descendants('.btn');
+  });
 
-    expect(h2).to.exist
-    expect(h2.textContent).to.match(/5$/)
-  })
-
-  it('Should render exactly two buttons.', function () {
-    const wrapper = mount(<HomeView {..._props} />)
-
-    expect(wrapper).to.have.descendants('.btn')
-  })
-
-  describe('An increment button...', function () {
-    let _btn
+  describe('An increment button...', () => {
+    let _btn;
 
     beforeEach(() => {
-      _btn = TestUtils.scryRenderedDOMComponentsWithTag(_rendered, 'button')
-        .filter(a => /Increment/.test(a.textContent))[0]
-    })
+      _btn = _component.findWhere(n => n.type() === 'button' && /Increment/.test(n.text()));
+    });
 
-    it('should be rendered.', function () {
-      expect(_btn).to.exist
-    })
+    it('should be rendered.', () => {
+      expect(_btn).to.exist();
+    });
 
-    it('should dispatch an action when clicked.', function () {
-      _spies.dispatch.should.have.not.been.called
-      TestUtils.Simulate.click(_btn)
-      _spies.dispatch.should.have.been.called
-    })
-  })
+    it('should dispatch an action when clicked.', () => {
+      _spies.increment.should.have.not.been.called();
+      _btn.simulate('click');
+      _spies.increment.should.have.been.called();
+    });
+  });
 
-  describe('A Double (Async) button...', function () {
-    let _btn
+  describe('A Double (Async) button...', () => {
+    let _btn;
 
     beforeEach(() => {
-      _btn = TestUtils.scryRenderedDOMComponentsWithTag(_rendered, 'button')
-        .filter(a => /Double/.test(a.textContent))[0]
-    })
+      _btn = _component.findWhere(n => n.type() === 'button' && /Double/.test(n.text()));
+    });
 
-    it('should be rendered.', function () {
-      expect(_btn).to.exist
-    })
+    it('should be rendered.', () => {
+      expect(_btn).to.exist();
+    });
 
-    it('should dispatch an action when clicked.', function () {
-      _spies.dispatch.should.have.not.been.called
-      TestUtils.Simulate.click(_btn)
-      _spies.dispatch.should.have.been.called
-    })
-  })
-})
+    it('should dispatch an action when clicked.', () => {
+      _spies.doubleAsync.should.have.not.been.called();
+      _btn.simulate('click');
+      _spies.doubleAsync.should.have.been.called();
+    });
+  });
+});

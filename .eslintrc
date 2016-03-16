@@ -3,37 +3,39 @@
   "extends": [
     "airbnb"
   ],
-  "plugins" : [
-    "flow-vars", "import"
+  "plugins": [
+    "flow-vars"/*,
+    "import"*/
   ],
-  "env"     : {
-    "browser" : true
+  "env": {
+    "browser": true
   },
-  "globals" : {
-    "Action"       : false,
-    "__DEV__"      : false,
-    "__PROD__"     : false,
-    "__DEBUG__"    : false,
-    "__DEBUG_NEW_WINDOW__" : false,
-    "__BASENAME__" : false
+  "globals": {
+    "Action": false,
+    "__DEV__": false,
+    "__PROD__": false,
+    "__DEBUG__": false,
+    "__DEBUG_NEW_WINDOW__": false,
+    "__BASENAME__": false
   },
   "rules": {
     "flow-vars/define-flow-type": 1,
     "flow-vars/use-flow-type": 1,
-    "import/export": 2,
+    /*"import/export": 2,
     "import/default": 2,
     "import/no-duplicates": 2,
     "import/named": 2,
     "import/namespace": 2,
     "import/no-unresolved": 2,
-    "import/no-named-as-default": 2,
-    "new-cap": 0
-  },
+    "import/no-named-as-default": 0,*/
+    "new-cap": 0,
+    //"no-param-reassign": [2, {"props": false}],
+    "react/prefer-stateless-function": 0
+  }/*,
   "settings": {
-    "import/ignore": ['node_modules'],
-    "import/parser": "babel-eslint",
+    "import/ignore": ['node_modules', '\.(scss|less|css|jpg)$'],
     "import/resolver": {
       webpack: { config: './build/webpack.config.js' }
     }
-  }
+  }*/
 }

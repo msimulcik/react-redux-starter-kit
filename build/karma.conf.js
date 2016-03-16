@@ -1,10 +1,10 @@
-import { argv } from 'yargs'
-import config from '../config'
-import webpackConfig from './webpack.config'
-import _debug from 'debug'
+import { argv } from 'yargs';
+import config from '../config';
+import webpackConfig from './webpack.config';
+import _debug from 'debug';
 
-const debug = _debug('app:karma')
-debug('Create configuration.')
+const debug = _debug('app:karma');
+debug('Create configuration.');
 
 const karmaConfig = {
   basePath: '../', // project root in relation to bin/karma.js
@@ -14,14 +14,14 @@ const karmaConfig = {
       pattern: `./${config.dir_test}/test-bundler.js`,
       watched: false,
       served: true,
-      included: true
-    }
+      included: true,
+    },
   ],
   singleRun: !argv.watch,
   frameworks: ['mocha'],
   reporters: ['mocha'],
   preprocessors: {
-    [`${config.dir_test}/test-bundler.js`]: ['webpack']
+    [`${config.dir_test}/test-bundler.js`]: ['webpack'],
   },
   browsers: ['PhantomJS'],
   webpack: {
@@ -30,46 +30,46 @@ const karmaConfig = {
       ...webpackConfig.resolve,
       alias: {
         ...webpackConfig.resolve.alias,
-        sinon: 'sinon/pkg/sinon.js'
-      }
+        sinon: 'sinon/pkg/sinon.js',
+      },
     },
     plugins: webpackConfig.plugins,
     module: {
       noParse: [
-        /\/sinon\.js/
+        /\/sinon\.js/,
       ],
       loaders: webpackConfig.module.loaders.concat([
         {
           test: /sinon(\\|\/)pkg(\\|\/)sinon\.js/,
-          loader: 'imports?define=>false,require=>false'
-        }
-      ])
+          loader: 'imports?define=>false,require=>false',
+        },
+      ]),
     },
     externals: {
       ...webpackConfig.externals,
       'react/lib/ExecutionEnvironment': true,
       'react/lib/ReactContext': 'window',
-      'text-encoding': 'window'
+      'text-encoding': 'window',
     },
-    sassLoader: webpackConfig.sassLoader
+    sassLoader: webpackConfig.sassLoader,
   },
   webpackMiddleware: {
-    noInfo: true
+    noInfo: true,
   },
   coverageReporter: {
-    reporters: config.coverage_reporters
-  }
-}
+    reporters: config.coverage_reporters,
+  },
+};
 
 if (config.coverage_enabled) {
-  karmaConfig.reporters.push('coverage')
+  karmaConfig.reporters.push('coverage');
   karmaConfig.webpack.module.preLoaders = [{
     test: /\.(js|jsx)$/,
     include: new RegExp(config.dir_client),
     loader: 'isparta',
-    exclude: /node_modules/
-  }]
+    exclude: /node_modules/,
+  }];
 }
 
 // cannot use `export default` because of Karma.
-module.exports = (cfg) => cfg.set(karmaConfig)
+module.exports = (cfg) => cfg.set(karmaConfig);
