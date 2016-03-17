@@ -3803,6 +3803,11 @@
       "from": "ignore-by-default@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/ignore-by-default/-/ignore-by-default-1.0.1.tgz"
     },
+    "immutable": {
+      "version": "3.7.6",
+      "from": "immutable@latest",
+      "resolved": "https://registry.npmjs.org/immutable/-/immutable-3.7.6.tgz"
+    },
     "imports-loader": {
       "version": "0.6.5",
       "from": "imports-loader@>=0.6.5 <0.7.0",
