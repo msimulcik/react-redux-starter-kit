@@ -38,11 +38,17 @@ const config = {
   },
   compiler_vendor : [
     'history',
+    'immutable',
     'react',
+    'react-dom',
+    'react-intl',
     'react-redux',
     'react-router',
     'react-router-redux',
+    'redial',
     'redux',
+    'redux-actions',
+    'redux-thunk',
   ],
 
   // ----------------------------------

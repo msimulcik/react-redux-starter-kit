@@ -17,7 +17,6 @@ export class Root extends React.Component {
     const intlData = {
       locale: this.props.locale,
       messages: messages[this.props.locale],
-      defaultLocale: '',
     };
 
     return (

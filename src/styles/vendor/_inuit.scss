@@ -1,0 +1,102 @@
+$inuit-base-font-size:          $font-size-base !default;
+$inuit-base-line-height:        $line-height-computed !default;
+$inuit-base-text-color:         $text-color !default;
+$inuit-base-background-color:   $body-bg !default;
+@import "~inuit-defaults/settings.defaults";
+
+$breakpoints: (
+    "xs" "(max-width: $screen-xs-max)",
+    "sm" "(min-width: $screen-sm-min) and (max-width: $screen-sm-max)",
+    "md" "(min-width: $screen-md-min) and (max-width: $screen-md-max)",
+    "lg" "(min-width: $screen-lg-min)",
+) !default;
+@import "~inuit-responsive-settings/settings.responsive";
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@import "~inuit-functions/tools.functions";
+@import "~inuit-responsive-tools/tools.responsive";
+@import "~inuit-tools-widths/tools.widths";
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$inuit-enable-layout--tiny:     true !default;
+$inuit-enable-layout--small:    true !default;
+$inuit-enable-layout--large:    true !default;
+$inuit-enable-layout--huge:     true !default;
+$inuit-enable-layout--flush:    true !default;
+$inuit-enable-layout--rev:      true !default;
+$inuit-enable-layout--middle:   true !default;
+$inuit-enable-layout--bottom:   true !default;
+$inuit-enable-layout--right:    true !default;
+$inuit-enable-layout--center:   true !default;
+$inuit-enable-layout--auto:     true !default;
+@import "~inuit-layout/objects.layout";
+
+$inuit-enable-pack--auto:   true !default;
+$inuit-enable-pack--tiny:   true !default;
+$inuit-enable-pack--small:  true !default;
+$inuit-enable-pack--large:  true !default;
+$inuit-enable-pack--huge:   true !default;
+$inuit-enable-pack--rev:    true !default;
+$inuit-enable-pack--middle: true !default;
+$inuit-enable-pack--bottom: true !default;
+@import "~inuit-pack/objects.pack";
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$inuit-widths-columns: (
+    $grid-columns,
+) !default;
+@import "~inuit-widths/trumps.widths";
+
+$inuit-widths-columns-responsive: (
+    $grid-columns,
+) !default;
+@import "~inuit-responsive-widths/trumps.widths-responsive";
+
+$inuit-enable-margins:                  true !default;
+$inuit-enable-margins--tiny:            true !default;
+$inuit-enable-margins--small:           true !default;
+$inuit-enable-margins--large:           true !default;
+$inuit-enable-margins--huge:            true !default;
+
+$inuit-enable-margins--negative:        true !default;
+$inuit-enable-margins--negative-tiny:   true !default;
+$inuit-enable-margins--negative-small:  true !default;
+$inuit-enable-margins--negative-large:  true !default;
+$inuit-enable-margins--negative-huge:   true !default;
+
+$inuit-enable-margins--none:            true !default;
+
+$inuit-enable-paddings:                 true !default;
+$inuit-enable-paddings--tiny:           true !default;
+$inuit-enable-paddings--small:          true !default;
+$inuit-enable-paddings--large:          true !default;
+$inuit-enable-paddings--huge:           true !default;
+
+$inuit-enable-paddings--none:           true !default;
+@import "~inuit-spacing/trumps.spacing";
+
+$inuit-enable-responsive-margins:                   true !default;
+$inuit-enable-responsive-margins--tiny:             true !default;
+$inuit-enable-responsive-margins--small:            true !default;
+$inuit-enable-responsive-margins--large:            true !default;
+$inuit-enable-responsive-margins--huge:             true !default;
+
+$inuit-enable-responsive-margins--negative:         true !default;
+$inuit-enable-responsive-margins--negative-tiny:    true !default;
+$inuit-enable-responsive-margins--negative-small:   true !default;
+$inuit-enable-responsive-margins--negative-large:   true !default;
+$inuit-enable-responsive-margins--negative-huge:    true !default;
+
+$inuit-enable-responsive-margins--none:             true !default;
+
+$inuit-enable-responsive-paddings:                  true !default;
+$inuit-enable-responsive-paddings--tiny:            true !default;
+$inuit-enable-responsive-paddings--small:           true !default;
+$inuit-enable-responsive-paddings--large:           true !default;
+$inuit-enable-responsive-paddings--huge:            true !default;
+
+$inuit-enable-responsive-paddings--none:            true !default;
+@import "~inuit-responsive-spacing/trumps.spacing-responsive";

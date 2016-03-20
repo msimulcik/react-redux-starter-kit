@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import config from '../config';
 import _debug from 'debug';
+import path from 'path';
 
 const debug = _debug('app:webpack:config');
 const paths = config.utils_paths;
@@ -153,19 +154,31 @@ const BASE_CSS_LOADER = 'css?sourceMap&-minimize';
 
 // Add any packge names here whose styles need to be treated as CSS modules.
 // These paths will be combined into a single regex.
-const PATHS_TO_TREAT_AS_CSS_MODULES = [
+const CSS_MODULES_PATHS_WHITE_LIST = [
   // 'react-toolbox', (example)
+];
+
+// Add any packge names here whose styles can not to be treated as CSS modules.
+// These paths will be combined into a single regex.
+const CSS_MODULES_PATHS_BLACK_LIST = [
+  // 'bootstrap'
 ];
 
 // If config has CSS modules enabled, treat this project's styles as CSS modules.
 if (config.compiler_css_modules) {
-  PATHS_TO_TREAT_AS_CSS_MODULES.push(
-    paths.base(config.dir_client).replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&')
+  CSS_MODULES_PATHS_WHITE_LIST.push(
+    paths.client().replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&')
+  );
+
+  CSS_MODULES_PATHS_BLACK_LIST.push(
+    paths.client('styles/global').replace(/[\^\$\.\*\+\-\?\=\!\:\|\\\/\(\)\[\]\{\}\,]/g, '\\$&')
   );
 }
 
-const isUsingCSSModules = !!PATHS_TO_TREAT_AS_CSS_MODULES.length;
-const cssModulesRegex = new RegExp(`(${PATHS_TO_TREAT_AS_CSS_MODULES.join('|')})`);
+const isUsingCSSModules = !!CSS_MODULES_PATHS_WHITE_LIST.length;
+const whiteListRegex = new RegExp(`(${CSS_MODULES_PATHS_WHITE_LIST.join('|')})`);
+const blackListRegex = new RegExp(`(${CSS_MODULES_PATHS_BLACK_LIST.join('|')})`);
+const isCssModule = pathStr => whiteListRegex.test(pathStr) && !blackListRegex.test(pathStr);
 
 // Loaders for styles that need to be treated as CSS modules.
 if (isUsingCSSModules) {
@@ -178,45 +191,48 @@ if (isUsingCSSModules) {
 
   webpackConfig.module.loaders.push({
     test: /\.scss$/,
-    include: cssModulesRegex,
+    include: isCssModule,
     loaders: [
       'style',
       cssModulesLoader,
       'postcss',
+      'resolve-url',
       'sass?sourceMap',
     ],
   });
 
   webpackConfig.module.loaders.push({
     test: /\.css$/,
-    include: cssModulesRegex,
+    include: isCssModule,
     loaders: [
       'style',
       cssModulesLoader,
       'postcss',
+      'resolve-url',
     ],
   });
 }
 
 // Loaders for files that should not be treated as CSS modules.
-const excludeCSSModules = isUsingCSSModules ? cssModulesRegex : false;
 webpackConfig.module.loaders.push({
   test: /\.scss$/,
-  exclude: excludeCSSModules,
+  exclude: isCssModule,
   loaders: [
     'style',
     BASE_CSS_LOADER,
     'postcss',
+    'resolve-url',
     'sass?sourceMap',
   ],
 });
 webpackConfig.module.loaders.push({
   test: /\.css$/,
-  exclude: excludeCSSModules,
+  exclude: isCssModule,
   loaders: [
     'style',
     BASE_CSS_LOADER,
     'postcss',
+    'resolve-url',
   ],
 });
 
@@ -224,7 +240,10 @@ webpackConfig.module.loaders.push({
 // Style Configuration
 // ------------------------------------
 webpackConfig.sassLoader = {
-  includePaths: paths.client('styles'),
+  includePaths: [
+    paths.client('styles'),
+    paths.base('node_modules/bootstrap-sass/assets/stylesheets'),
+  ],
 };
 
 webpackConfig.postcss = [
