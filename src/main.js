@@ -15,7 +15,7 @@ import fetchData from 'helpers/fetchData';
 
 if (__DEBUG__) {
   const Immutable = require('immutable');
-  const { default: installDevTools } = require('immutable-devtools');
+  const installDevTools = require('immutable-devtools');
   installDevTools(Immutable);
 }
 
