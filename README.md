@@ -28,6 +28,7 @@ Table of Contents
 1. [Testing](#testing)
 1. [Deployment](#deployment)
 1. [Troubleshooting](#troubleshooting)
+1. [Thank You](#thank-you)
 
 Requirements
 ------------
@@ -38,7 +39,7 @@ Requirements
 Features
 --------
 
-* [React](https://github.com/facebook/react) (`^0.14.0`)
+* [React](https://github.com/facebook/react) (`^15.0.0`)
 * [Redux](https://github.com/rackt/redux) (`^3.0.0`)
   * react-redux (`^4.0.0`)
   * redux-devtools
@@ -127,7 +128,7 @@ Great, now that introductions have been made here's everything in full detail:
 |`lint`|Lint all `.js` files.|
 |`lint:fix`|Lint and fix all `.js` files. [Read more on this](http://eslint.org/docs/user-guide/command-line-interface.html#fix).|
 
-**NOTE:** Deploying to a specific environment? Make sure to specify your target `NODE_ENV` so webpack will use the correct configuration. For example: `NODE_ENV=production npm run compile` will compile your application with `~/build/webpack/_production.js`.
+**NOTE:** Deploying to a specific environment? Make sure to specify your target `NODE_ENV` so webpack will use the correct configuration. For example: `NODE_ENV=production npm run compile` will compile your application with `~/config/_production.js`.
 
 ### Configuration
 
@@ -326,3 +327,15 @@ While this is common to any sizable application, it's worth noting for those who
 ```
 	"folder_exclude_patterns": [".svn",	".git",	".hg", "CVS",	"node_modules",	"dist"]
 ```
+
+Thank You
+---------
+
+This project wouldn't be possible without help from the community, so I'd like to highlight some of its biggest contributors. Thank you all for your hard work, you've made my life a lot easier and taught me a lot in the process.
+
+* [Justin Greenberg](https://github.com/justingreenberg) - For all of your PR's, getting us to Babel 6, and constant work improving our patterns.
+* [Roman Pearah](https://github.com/neverfox) - For your bug reports, help in triaging issues, and PR contributions.
+* [Spencer Dixin](https://github.com/SpencerCDixon) - For your creation of [redux-cli](https://github.com/SpencerCDixon/redux-cli).
+* [Jonas Matser](https://github.com/mtsr) - For your help in triaging issues and unending support in our Gitter channel.
+
+And to everyone else who has contributed, even if you are not listed here your work is appreciated.
