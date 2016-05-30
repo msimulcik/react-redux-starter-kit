@@ -1,30 +1,23 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import CoreLayout from 'layouts/CoreLayout/CoreLayout';
-
-function shallowRender(component) {
-  const renderer = TestUtils.createRenderer();
-
-  renderer.render(component);
-  return renderer.getRenderOutput();
-}
-
-function shallowRenderWithProps(props = {}) {
-  return shallowRender(<CoreLayout {...props} />);
-}
+import { CoreLayout } from 'layouts/CoreLayout/CoreLayout';
+import { shallow } from 'enzyme';
 
 describe('(Layout) Core', () => {
+  let _spies;
   let _component;
   const _child = <h1 className="child">Child</h1>;
-  const _props = {
-    children: _child,
-  };
+  let _props;
 
   beforeEach(() => {
-    _component = shallowRenderWithProps(_props);
+    _spies = {};
+    _props = {
+      children: _child,
+      localeChange: (_spies.localeChange = sinon.spy()),
+    };
+    _component = shallow(<CoreLayout {..._props} />);
   });
 
   it('Should render as a <div>.', () => {
-    expect(_component.type).to.equal('div');
+    expect(_component.type()).to.equal('div');
   });
 });
