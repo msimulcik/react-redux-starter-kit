@@ -1,28 +1,25 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import Header from 'components/Header';
+import classes from './CoreLayout.scss';
+import { localeChange as localeChangeAction } from 'modules/locale';
+import '../../styles/core.scss';
 import 'styles/global/global.scss';
-import 'styles/core.scss';
 
-// Note: Stateless/function components *will not* hot reload!
-// react-transform *only* works on component classes.
-//
-// Since layouts rarely change, they are a good place to
-// leverage React's new Stateless Functions:
-// https://facebook.github.io/react/docs/reusable-components.html#stateless-functions
-//
-// CoreLayout is a pure function of its props, so we can
-// define it with a plain javascript function...
-function CoreLayout({ children }) {
-  return (
-    <div className="page-container">
-      <div className="view-container">
-        {children}
-      </div>
+export const CoreLayout = ({ children, localeChange }) => (
+  <div className="container text-center">
+    <Header localeChange={localeChange} />
+    <div className={classes.mainContainer}>
+      {children}
     </div>
-  );
-}
+  </div>
+);
 
 CoreLayout.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.element.isRequired,
+  localeChange: PropTypes.func.isRequired,
 };
 
-export default CoreLayout;
+export default connect(null, {
+  localeChange: localeChangeAction,
+})(CoreLayout);
