@@ -15,6 +15,12 @@ import Immutable from 'immutable';
 import installDevTools from 'immutable-devtools';
 import createRoutes from './routes/index';
 import { RedBox } from 'redbox-react';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import { addTypenameToSelectionSet } from 'apollo-client/queries/queryTransform';
+import { registerGqlTag } from 'apollo-client/gql';
+
+// Globally register gql template literal tag
+registerGqlTag();
 
 if (__DEBUG__) {
   installDevTools(Immutable);
@@ -31,6 +37,21 @@ addLocaleData(en);
 addLocaleData(es);
 addLocaleData(fr);
 
+// ======================================================
+// Apollo Configuration
+// ======================================================
+const apolloClient = new ApolloClient({
+  networkInterface: createNetworkInterface('http://localhost:3030/graphql'),
+  queryTransformer: addTypenameToSelectionSet,
+  dataIdFromObject: (result) => {
+    if (result.id && result.__typename) {
+      return result.__typename + result.id.toString();
+    }
+
+    return undefined;
+  },
+});
+
 // ========================================================
 // Store and History Instantiation
 // ========================================================
@@ -40,7 +61,7 @@ addLocaleData(fr);
 // react-router-redux of its location.
 const initialState = window.__INITIAL_STATE__;
 const client = new ApiClient();
-const store = createStore(initialState, browserHistory, client);
+const store = createStore(initialState, browserHistory, client, apolloClient);
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.router,
 });
@@ -78,6 +99,7 @@ const hookForFetchData = () => {
 let render = (routerKey = null) => {
   ReactDOM.render(
     <AppContainer
+      apolloClient={apolloClient}
       store={store}
       history={history}
       routes={routes}

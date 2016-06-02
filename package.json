@@ -79,6 +79,7 @@
   "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
   "license": "MIT",
   "dependencies": {
+    "apollo-client": "^0.3.12",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.3.17",
     "babel-loader": "^6.2.0",
@@ -122,6 +123,7 @@
     "normalizr": "^2.0.0",
     "postcss-loader": "^0.8.0",
     "react": "^15.0.0",
+    "react-apollo": "^0.3.6",
     "react-dom": "^15.0.0",
     "react-intl": "^2.0.0-rc-1",
     "react-redux": "^4.0.0",

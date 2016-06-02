@@ -20,6 +20,11 @@ const messages = defineMessages({
     description: 'Link to counter page',
     defaultMessage: 'Counter',
   },
+  todoLink: {
+    id: 'header.todoLink',
+    description: 'Link to todo page',
+    defaultMessage: 'Todo',
+  },
 });
 
 export const Header = ({ localeChange }) => (
@@ -31,6 +36,10 @@ export const Header = ({ localeChange }) => (
     {' · '}
     <Link to="/counter" activeClassName={classes.activeRoute}>
       <FormattedMessage {...messages.counterLink} />
+    </Link>
+    {' · '}
+    <Link to="/todo" activeClassName={classes.activeRoute}>
+      <FormattedMessage {...messages.todoLink} />
     </Link>
     <LanguageSelector onChange={localeChange} />
   </div>

@@ -4,11 +4,16 @@ import thunk from 'redux-thunk';
 import makeRootReducer from './reducers';
 import clientMiddleware from 'middlewares/clientMiddleware';
 
-export default (initialState = {}, history, client) => {
+export default (initialState = {}, history, client, apolloClient) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk, clientMiddleware(client), routerMiddleware(history)];
+  const middleware = [
+    apolloClient.middleware(),
+    thunk,
+    clientMiddleware(client),
+    routerMiddleware(history),
+  ];
 
   // ======================================================
   // Store Enhancers
@@ -24,15 +29,18 @@ export default (initialState = {}, history, client) => {
   // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
+  const initialReducers = {
+    apollo: apolloClient.reducer(),
+  };
   const store = createStore(
-    makeRootReducer(),
+    makeRootReducer(initialReducers),
     initialState,
     compose(
       applyMiddleware(...middleware),
       ...enhancers
     ),
   );
-  store.asyncReducers = {};
+  store.asyncReducers = initialReducers;
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {

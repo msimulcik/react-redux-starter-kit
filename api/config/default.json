@@ -1,0 +1,13 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "postgres": "postgres://miro:@localhost:5432/feathersgraphqlstarterkit",
+  "public": "../public/",
+  "auth": {
+    "idField": "id",
+    "token": {
+      "secret": "jrzAXTV+/GFIi448rmAO7pkwLLy03L5TDquK60SCOV97OI5FwyVS2a74KiC94/+5L5nO6roJeRFmpYjX2aA6SA=="
+    },
+    "local": {}
+  }
+}
